@@ -1,6 +1,7 @@
 package gui;
 
 import constants.CommonConstants;
+import service.CalculatorService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 
 public class CalculatorGui extends JFrame implements ActionListener {
     private static final SpringLayout springLayout = new SpringLayout();
+    private CalculatorService calculatorService;
 
     // display field
     private JTextField displayField;
@@ -27,6 +29,8 @@ public class CalculatorGui extends JFrame implements ActionListener {
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(springLayout);
+
+        calculatorService = new CalculatorService();
 
         addGuiComponents();
     }
@@ -127,8 +131,49 @@ public class CalculatorGui extends JFrame implements ActionListener {
             // update flags
             pressedOperator = false;
             pressedEquals = false;
-        } else if (buttonCommand.equals("=")) {
+        } else if(buttonCommand.equals("=")) {
             //calculate
+            calculatorService.setNum2(Double.parseDouble(displayField.getText()));
+
+            double result = 0;
+
+            switch (calculatorService.getMathSymbol()) {
+                case '+':
+                    result = calculatorService.add();
+                    break;
+                case '-':
+                    result = calculatorService.subtract();
+                    break;
+                case 'x':
+                    result = calculatorService.multiply();
+                    break;
+                case '/':
+                    result = calculatorService.divide();
+                    break;
+
+            }
+
+            // update display field
+            displayField.setText(Double.toString(result));
+
+            //update flags
+            pressedEquals = true;
+            pressedOperator = false;
+
+        } else if(buttonCommand.equals(".")) {
+            if(!displayField.getText().contains(".")) {
+                displayField.setText(displayField.getText() + buttonCommand);
+            }
+        } else {
+            // operator
+            if(!pressedOperator) {
+                calculatorService.setNum1(Double.parseDouble(displayField.getText()));
+            }
+            calculatorService.setMathSymbol(buttonCommand.charAt(0));
+
+            //update flags
+            pressedEquals = false;
+            pressedOperator = true;
         }
     }
 }

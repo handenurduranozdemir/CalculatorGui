@@ -13,14 +13,3 @@ A simple and user-friendly desktop calculator application built with Java Swing.
 
 <img src="docs/calculator.png" alt="Calculator GUI Screenshot" width="400" />
 
-
-## 🧩 Project Structure
-
-CalculatorGui/
-├── src/
-│   ├── CalculatorApp.java               # Entry point of the application
-│   ├── service/CalculatorService.java   # Business logic (arithmetic operations)
-│   ├── gui/CalculatorGui.java           # GUI implementation using Swing
-│   └── constants/CommonConstants.java   # Constants used in the app
-├── .gitignore
-├── README.md
